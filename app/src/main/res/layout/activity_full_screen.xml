@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Full Image -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"/>
+    <!-- Back Button -->
+    <ImageView
+        android:id="@+id/backBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/glass_bg"
+        android:src="@drawable/back" />
+    <!-- Right Side Buttons -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:paddingBottom="30dp"
+        android:layout_marginBottom="274dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/favBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/glass_bg"
+            android:src="@drawable/like" />
+
+        <ImageView
+            android:id="@+id/downloadBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/glass_bg"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/download" />
+
+        <ImageView
+            android:id="@+id/wallpaperBtn"
+            android:layout_width="40dp"
+            android:background="@drawable/glass_bg"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/setas" />
+    </LinearLayout>
+
+</RelativeLayout>

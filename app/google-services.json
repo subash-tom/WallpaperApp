@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "894919870712",
+    "project_id": "pixivo-a2641",
+    "storage_bucket": "pixivo-a2641.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:894919870712:android:4fb8f801d975e61a66930d",
+        "android_client_info": {
+          "package_name": "com.example.pixivo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwTRg1ZN-21sz8TFZm21DNEMdrP9OtkbQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
