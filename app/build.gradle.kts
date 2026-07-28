@@ -49,6 +49,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 
     implementation(libs.material)
 
@@ -70,6 +71,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("com.github.MikeOrtiz:TouchImageView:3.6")
     implementation("com.github.yalantis:ucrop:2.2.8")
+    implementation("com.github.yalantis:ucrop:2.2.10")
 
 
 }

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.yalantis.ucrop.UCrop;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
@@ -36,6 +37,7 @@ public class FullScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_screen);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
 
 
 
@@ -274,6 +276,10 @@ public class FullScreenActivity extends AppCompatActivity {
         options.setHideBottomControls(false);
         options.setShowCropFrame(true);
         options.setShowCropGrid(true);
+
+        options.setToolbarWidgetColor(android.graphics.Color.BLACK);
+        options.setStatusBarColor(android.graphics.Color.WHITE);
+        options.setToolbarColor(android.graphics.Color.WHITE);
 
         UCrop.of(sourceUri, destinationUri)
                 .withAspectRatio(

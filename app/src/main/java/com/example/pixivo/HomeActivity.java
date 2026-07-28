@@ -127,7 +127,14 @@ public class HomeActivity extends AppCompatActivity {
 
         recyclerView.addItemDecoration(
                 new RecyclerSpace(spanCount, space, true)
+
         );
+
+        ShimmerAdapter shimmerAdapter = new ShimmerAdapter();
+
+        recyclerView.setAdapter(shimmerAdapter);
+
+        loadWallpapers();
         // 🔥 LOAD FIRESTORE DATA
         loadWallpapers();
 
@@ -185,8 +192,11 @@ public class HomeActivity extends AppCompatActivity {
                         }
                     }
 
-                    // 🔥 IMPORTANT: send full list to adapter
+                    // Update adapter
                     adapter.updateFullList(list);
+
+                    // Replace shimmer with real images
+                    recyclerView.setAdapter(adapter);
 
                     if (swipeRefresh != null) {
                         swipeRefresh.setRefreshing(false);
@@ -206,7 +216,6 @@ public class HomeActivity extends AppCompatActivity {
                     ).show();
                 });
     }
-
     // 🔥 EXIT DIALOG
     private void showExitDialog() {
 

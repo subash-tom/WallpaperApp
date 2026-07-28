@@ -1,15 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
+    <!-- Base Theme -->
     <style name="Base.Theme.Pixivo" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
 
         <item name="android:fontFamily">@font/outfit_medium</item>
         <item name="fontFamily">@font/outfit_medium</item>
 
     </style>
 
+    <!-- App Theme -->
     <style name="Theme.Pixivo" parent="Base.Theme.Pixivo" />
 
+    <!-- UCrop Theme -->
+    <style name="UCropTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <!-- White Toolbar -->
+        <item name="colorPrimary">@android:color/white</item>
+        <item name="colorPrimaryDark">@android:color/white</item>
+
+        <!-- White Status Bar -->
+        <item name="android:statusBarColor">@android:color/white</item>
+
+        <!-- Black Icons -->
+        <item name="android:windowLightStatusBar">true</item>
+
+        <!-- Toolbar Text -->
+        <item name="android:textColorPrimary">@android:color/black</item>
+
+    </style>
 
 </resources>
