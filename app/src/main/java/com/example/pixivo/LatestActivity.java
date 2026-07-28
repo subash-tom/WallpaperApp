@@ -126,18 +126,39 @@ public class LatestActivity extends AppCompatActivity {
     // 🔥 FIXED LATEST LOGIC (SAFE VERSION)
     private void loadLatestWallpapers() {
 
+        swipeRefresh.setRefreshing(true);
+
+        long sevenDaysAgo =
+                System.currentTimeMillis() - (7L * 24 * 60 * 60 * 1000);
+
         FirebaseFirestore.getInstance()
                 .collection("wallpapers")
+                .whereGreaterThanOrEqualTo("timestamp", sevenDaysAgo)
+                .orderBy("timestamp", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
 
                     list.clear();
 
-                    Toast.makeText(
-                            this,
-                            "Latest  " + queryDocumentSnapshots.size(),
-                            Toast.LENGTH_LONG
-                    ).show();
+                    int count = queryDocumentSnapshots.size();
+
+                    if (count == 0) {
+
+                        Toast.makeText(
+                                LatestActivity.this,
+                                " Latests 0",
+                                Toast.LENGTH_LONG
+                        ).show();
+
+                    } else {
+
+                        Toast.makeText(
+                                LatestActivity.this,
+                                " Latests " + count,
+                                Toast.LENGTH_LONG
+                        ).show();
+
+                    }
 
                     for (DocumentSnapshot doc : queryDocumentSnapshots) {
 
@@ -150,20 +171,22 @@ public class LatestActivity extends AppCompatActivity {
                     }
 
                     adapter.updateFullList(list);
-                    swipeRefresh.setRefreshing(false);
                     adapter.notifyDataSetChanged();
+
+                    swipeRefresh.setRefreshing(false);
+
                 })
                 .addOnFailureListener(e -> {
 
+                    swipeRefresh.setRefreshing(false);
+
                     Toast.makeText(
                             LatestActivity.this,
-                            "Error: " + e.getMessage(),
+                            "Error : " + e.getMessage(),
                             Toast.LENGTH_LONG
                     ).show();
 
-                    swipeRefresh.setRefreshing(false); // ADD THIS
                 });
-
     }
     private boolean isConnected() {
 
