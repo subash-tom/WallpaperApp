@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:textColor="#000000"
     android:textColorHint="#808080"
+    android:fitsSystemWindows="true"
     android:fillViewport="true"
     android:background="#F7F7F7">
 

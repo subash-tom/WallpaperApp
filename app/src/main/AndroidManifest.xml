@@ -67,8 +67,9 @@
         <!-- UCrop -->
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
-            android:theme="@style/UCropTheme"/>
-
+            android:theme="@style/UCropTheme"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
     </application>
 
 </manifest>

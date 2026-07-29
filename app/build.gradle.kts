@@ -71,7 +71,6 @@ dependencies {
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("com.github.MikeOrtiz:TouchImageView:3.6")
     implementation("com.github.yalantis:ucrop:2.2.8")
-    implementation("com.github.yalantis:ucrop:2.2.10")
 
 
 }
