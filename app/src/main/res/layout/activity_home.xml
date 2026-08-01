@@ -91,12 +91,45 @@
                 android:backgroundTint="#E3A2EE"/>
 
             <Button
-                android:id="@+id/catNature"
+                android:id="@+id/catFlim"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginStart="6dp"
-                android:text="Nature"
+                android:text="flims"
                 android:backgroundTint="#E3A2EE"/>
+
+            <Button
+                android:id="@+id/catAnime"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="6dp"
+                android:text="Animes"
+                android:backgroundTint="#E3A2EE"/>
+
+            <Button
+                android:id="@+id/catCartoon"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="6dp"
+                android:text="Cartoons"
+                android:backgroundTint="#E3A2EE"/>
+
+            <Button
+                android:id="@+id/catMarvel"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="6dp"
+                android:text="Marvels"
+                android:backgroundTint="#E3A2EE"/>
+
+            <Button
+                android:id="@+id/catGame"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="6dp"
+                android:text="Games"
+                android:backgroundTint="#E3A2EE"/>
+
 
 
         </LinearLayout>

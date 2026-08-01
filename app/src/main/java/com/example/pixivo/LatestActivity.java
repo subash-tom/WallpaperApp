@@ -126,8 +126,6 @@ public class LatestActivity extends AppCompatActivity {
     // 🔥 FIXED LATEST LOGIC (SAFE VERSION)
     private void loadLatestWallpapers() {
 
-        swipeRefresh.setRefreshing(true);
-
         long sevenDaysAgo =
                 System.currentTimeMillis() - (7L * 24 * 60 * 60 * 1000);
 

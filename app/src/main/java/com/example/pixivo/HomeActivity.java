@@ -43,7 +43,7 @@ public class HomeActivity extends AppCompatActivity {
     boolean isSearchVisible = false;
 
     // 🔥 CATEGORY BUTTONS (ADD in XML if not added)
-    Button catCar, catBike, catAnimal, catSport, catBird, catNature;
+    Button catCar, catBike, catAnimal, catSport, catBird, catFlim, catAnime, catCartoon, catMarvel, catGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +84,11 @@ public class HomeActivity extends AppCompatActivity {
         catAnimal = findViewById(R.id.catAnimal);
         catSport = findViewById(R.id.catSport);
         catBird = findViewById(R.id.catBird);
-        catNature = findViewById(R.id.catNature);
+        catFlim = findViewById(R.id.catFlim);
+        catMarvel=findViewById(R.id.catMarvel);
+        catCartoon=findViewById(R.id.catCartoon);
+        catAnime=findViewById(R.id.catAnime);
+        catGame=findViewById(R.id.catGame);
 
 //        net work
         ConnectivityManager cm =
@@ -146,7 +150,11 @@ public class HomeActivity extends AppCompatActivity {
         catAnimal.setOnClickListener(v -> adapter.filter("animal"));
         catSport.setOnClickListener(v -> adapter.filter("sport"));
         catBird.setOnClickListener(v -> adapter.filter("bird"));
-        catNature.setOnClickListener(v -> adapter.filter("nature"));
+        catFlim.setOnClickListener(v -> adapter.filter("flim"));
+        catAnime.setOnClickListener(v -> adapter.filter("anime"));
+        catCartoon.setOnClickListener(v -> adapter.filter("cartoon"));
+        catMarvel.setOnClickListener(v -> adapter.filter("marvel"));
+        catGame.setOnClickListener(v -> adapter.filter("game"));
 
         // 🔥 BACK PRESS
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
