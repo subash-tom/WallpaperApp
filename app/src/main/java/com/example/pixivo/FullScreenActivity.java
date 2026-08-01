@@ -277,9 +277,6 @@ public class FullScreenActivity extends AppCompatActivity {
         options.setShowCropFrame(true);
         options.setShowCropGrid(true);
 
-        options.setToolbarWidgetColor(android.graphics.Color.BLACK);
-        options.setStatusBarColor(android.graphics.Color.WHITE);
-        options.setToolbarColor(android.graphics.Color.WHITE);
 
         UCrop.of(sourceUri, destinationUri)
                 .withAspectRatio(
