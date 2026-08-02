@@ -33,6 +33,11 @@ public class HomeActivity extends AppCompatActivity {
     ImageView homeBtn, latestBtn, favouriteBtn, profileBtn;
 
     RecyclerView recyclerView;
+    boolean isSearchVisible = false;
+
+    private boolean isCategorySelected = false;
+
+    private String selectedCategory = "all";
     SwipeRefreshLayout swipeRefresh;
     ArrayList<WallpaperModel> list;
     WallpaperAdapter adapter;
@@ -40,7 +45,7 @@ public class HomeActivity extends AppCompatActivity {
     // 🔍 Search UI
     TextView appName;
 ;
-    boolean isSearchVisible = false;
+
 
     // 🔥 CATEGORY BUTTONS (ADD in XML if not added)
     Button catCar, catBike, catAnimal, catSport, catBird, catFlim, catAnime, catCartoon, catMarvel, catGame;
@@ -145,25 +150,83 @@ public class HomeActivity extends AppCompatActivity {
         loadWallpapers();
 
         // 🔥 CATEGORY CLICK EVENTS
-        catCar.setOnClickListener(v -> adapter.filter("car"));
-        catBike.setOnClickListener(v -> adapter.filter("bike"));
-        catAnimal.setOnClickListener(v -> adapter.filter("animal"));
-        catSport.setOnClickListener(v -> adapter.filter("sport"));
-        catBird.setOnClickListener(v -> adapter.filter("bird"));
-        catFlim.setOnClickListener(v -> adapter.filter("flim"));
-        catAnime.setOnClickListener(v -> adapter.filter("anime"));
-        catCartoon.setOnClickListener(v -> adapter.filter("cartoon"));
-        catMarvel.setOnClickListener(v -> adapter.filter("marvel"));
-        catGame.setOnClickListener(v -> adapter.filter("game"));
-
-        // 🔥 BACK PRESS
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                showExitDialog();
-            }
+        catCar.setOnClickListener(v -> {
+            selectedCategory = "car";
+            isCategorySelected = true;
+            adapter.filter(selectedCategory);
         });
 
+        catBike.setOnClickListener(v -> {
+            selectedCategory = "bike";
+            isCategorySelected = true;
+            adapter.filter(selectedCategory);
+        });
+
+        catAnimal.setOnClickListener(v -> {
+            selectedCategory = "animal";
+            isCategorySelected = true;
+            adapter.filter(selectedCategory);
+        });
+
+        catSport.setOnClickListener(v -> {
+            selectedCategory = "sport";
+            isCategorySelected = true;
+            adapter.filter(selectedCategory);
+        });
+
+        catBird.setOnClickListener(v -> {
+            selectedCategory = "bird";
+            isCategorySelected = true;
+            adapter.filter(selectedCategory);
+        });
+        catFlim.setOnClickListener(v -> {
+            selectedCategory = "flim";
+            isCategorySelected = true;
+            adapter.filter(selectedCategory);
+        });
+
+        catAnime.setOnClickListener(v -> {
+            selectedCategory = "anime";
+            isCategorySelected = true;
+            adapter.filter(selectedCategory);
+        });
+
+        catCartoon.setOnClickListener(v -> {
+            selectedCategory = "cartoon";
+            isCategorySelected = true;
+            adapter.filter(selectedCategory);
+        });
+
+        catMarvel.setOnClickListener(v -> {
+            selectedCategory = "marvel";
+            isCategorySelected = true;
+            adapter.filter(selectedCategory);
+        });
+
+        catGame.setOnClickListener(v -> {
+            selectedCategory = "game";
+            isCategorySelected = true;
+            adapter.filter(selectedCategory);
+        });
+
+        getOnBackPressedDispatcher().addCallback(this,
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+
+                        if (isCategorySelected) {
+
+                            adapter.filter("all");
+                            selectedCategory = "all";
+                            isCategorySelected = false;
+
+                        } else {
+
+                            showExitDialog();
+
+                        }
+                    }
+                });
         // 🔹 Bottom Nav Colors
         homeBtn.setColorFilter(Color.BLACK);
         latestBtn.setColorFilter(Color.GRAY);
@@ -207,6 +270,8 @@ public class HomeActivity extends AppCompatActivity {
 
                     // Replace shimmer with real images
                     recyclerView.setAdapter(adapter);
+
+                    adapter.filter(selectedCategory);
 
                     if (swipeRefresh != null) {
                         swipeRefresh.setRefreshing(false);

@@ -115,6 +115,11 @@ public class FavouriteActivity extends AppCompatActivity {
         profileBtn.setOnClickListener(v ->
                 startActivity(new Intent(FavouriteActivity.this, ProfileActivity.class)));
 
+        ShimmerAdapter shimmerAdapter = new ShimmerAdapter();
+
+        recyclerView.setAdapter(shimmerAdapter);
+
+        // 🔥 LOAD FIRESTORE DATA
         loadFavourites();
     }
 
@@ -156,6 +161,8 @@ public class FavouriteActivity extends AppCompatActivity {
                     ).show();
 
                     adapter.updateFullList(list);
+                    // Replace shimmer with real images
+                    recyclerView.setAdapter(adapter);
                     swipeRefresh.setRefreshing(false);
                 })
                 .addOnFailureListener(e -> {

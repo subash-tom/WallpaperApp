@@ -120,6 +120,11 @@ public class LatestActivity extends AppCompatActivity {
         profileBtn.setOnClickListener(v ->
                 startActivity(new Intent(this, ProfileActivity.class)));
 
+        ShimmerAdapter shimmerAdapter = new ShimmerAdapter();
+
+        recyclerView.setAdapter(shimmerAdapter);
+
+        // 🔥 LOAD FIRESTORE DATA
         loadLatestWallpapers();
     }
 
@@ -169,6 +174,8 @@ public class LatestActivity extends AppCompatActivity {
                     }
 
                     adapter.updateFullList(list);
+                    // Replace shimmer with real images
+                    recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
 
                     swipeRefresh.setRefreshing(false);
