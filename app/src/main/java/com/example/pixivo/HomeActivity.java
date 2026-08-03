@@ -234,14 +234,22 @@ public class HomeActivity extends AppCompatActivity {
         profileBtn.setColorFilter(Color.GRAY);
 
         // 🔹 Navigation Clicks
-        latestBtn.setOnClickListener(v ->
-                startActivity(new Intent(HomeActivity.this, LatestActivity.class)));
+        latestBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, LatestActivity.class);
+            startActivity(intent);
+            overridePendingTransition(0, 0);
+        });
 
-        favouriteBtn.setOnClickListener(v ->
-                startActivity(new Intent(HomeActivity.this, FavouriteActivity.class)));
-
-        profileBtn.setOnClickListener(v ->
-                startActivity(new Intent(HomeActivity.this, ProfileActivity.class)));
+        favouriteBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, FavouriteActivity.class);
+            startActivity(intent);
+            overridePendingTransition(0, 0);
+        });
+        profileBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+            startActivity(intent);
+            overridePendingTransition(0, 0);
+        });
     }
 
     // 🔥 FIRESTORE LOAD

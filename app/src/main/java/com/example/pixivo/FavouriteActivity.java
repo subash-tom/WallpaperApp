@@ -106,14 +106,23 @@ public class FavouriteActivity extends AppCompatActivity {
         favouriteBtn.setColorFilter(Color.BLACK);
         profileBtn.setColorFilter(Color.GRAY);
 
-        homeBtn.setOnClickListener(v ->
-                startActivity(new Intent(FavouriteActivity.this, HomeActivity.class)));
+        // 🔹 Navigation Clicks
+        latestBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(FavouriteActivity.this, LatestActivity.class);
+            startActivity(intent);
+            overridePendingTransition(0, 0);
+        });
 
-        latestBtn.setOnClickListener(v ->
-                startActivity(new Intent(FavouriteActivity.this, LatestActivity.class)));
-
-        profileBtn.setOnClickListener(v ->
-                startActivity(new Intent(FavouriteActivity.this, ProfileActivity.class)));
+        homeBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(FavouriteActivity.this, HomeActivity.class);
+            startActivity(intent);
+            overridePendingTransition(0, 0);
+        });
+        profileBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(FavouriteActivity.this, ProfileActivity.class);
+            startActivity(intent);
+            overridePendingTransition(0, 0);
+        });
 
         ShimmerAdapter shimmerAdapter = new ShimmerAdapter();
 

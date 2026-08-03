@@ -99,29 +99,23 @@ public class ProfileActivity extends AppCompatActivity {
             finish();
         });
 
-        homeBtn.setOnClickListener(v ->
-                startActivity(
-                        new Intent(
-                                ProfileActivity.this,
-                                HomeActivity.class
-                        )
-                ));
+        // 🔹 Navigation Clicks
+        latestBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, LatestActivity.class);
+            startActivity(intent);
+            overridePendingTransition(0, 0);
+        });
 
-        latestBtn.setOnClickListener(v ->
-                startActivity(
-                        new Intent(
-                                ProfileActivity.this,
-                                LatestActivity.class
-                        )
-                ));
-
-        favouriteBtn.setOnClickListener(v ->
-                startActivity(
-                        new Intent(
-                                ProfileActivity.this,
-                                FavouriteActivity.class
-                        )
-                ));
+        favouriteBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, FavouriteActivity.class);
+            startActivity(intent);
+            overridePendingTransition(0, 0);
+        });
+        homeBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
+            startActivity(intent);
+            overridePendingTransition(0, 0);
+        });
     }
 
     private void loadUserData() {

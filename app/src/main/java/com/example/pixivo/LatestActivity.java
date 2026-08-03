@@ -111,15 +111,23 @@ public class LatestActivity extends AppCompatActivity {
         favouriteBtn.setColorFilter(Color.GRAY);
         profileBtn.setColorFilter(Color.GRAY);
 
-        homeBtn.setOnClickListener(v ->
-                startActivity(new Intent(this, HomeActivity.class)));
+        // 🔹 Navigation Clicks
+        homeBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(LatestActivity.this, HomeActivity.class);
+            startActivity(intent);
+            overridePendingTransition(0, 0);
+        });
 
-        favouriteBtn.setOnClickListener(v ->
-                startActivity(new Intent(this, FavouriteActivity.class)));
-
-        profileBtn.setOnClickListener(v ->
-                startActivity(new Intent(this, ProfileActivity.class)));
-
+        favouriteBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(LatestActivity.this, FavouriteActivity.class);
+            startActivity(intent);
+            overridePendingTransition(0, 0);
+        });
+        profileBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(LatestActivity.this, ProfileActivity.class);
+            startActivity(intent);
+            overridePendingTransition(0, 0);
+        });
         ShimmerAdapter shimmerAdapter = new ShimmerAdapter();
 
         recyclerView.setAdapter(shimmerAdapter);
