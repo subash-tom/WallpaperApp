@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -116,6 +118,19 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(intent);
             overridePendingTransition(0, 0);
         });
+
+        getOnBackPressedDispatcher().addCallback(this,
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+
+                        Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                        overridePendingTransition(0, 0);
+                        finish();
+                    }
+                });
     }
 
     private void loadUserData() {
@@ -139,11 +154,7 @@ public class ProfileActivity extends AppCompatActivity {
                         String name = documentSnapshot.getString("name");
                         String image = documentSnapshot.getString("image");
 
-                        Toast.makeText(
-                                ProfileActivity.this,
-                                "Name: " + name,
-                                Toast.LENGTH_LONG
-                        ).show();
+
 
                         if (name != null && !name.isEmpty()) {
                             profileName.setText(name);

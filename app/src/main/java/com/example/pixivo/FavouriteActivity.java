@@ -7,12 +7,14 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-
+import android.widget.LinearLayout;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +33,8 @@ public class FavouriteActivity extends AppCompatActivity {
     SwipeRefreshLayout swipeRefresh;
     ArrayList<WallpaperModel> list;
     WallpaperAdapter adapter;
+    LinearLayout emptyLayout;
+
 
     ImageView latestBtn, homeBtn, favouriteBtn, profileBtn;
 
@@ -54,6 +58,7 @@ public class FavouriteActivity extends AppCompatActivity {
         );
 
         recyclerView = findViewById(R.id.recyclerView);
+        emptyLayout = findViewById(R.id.emptyLayout);
 
         swipeRefresh = findViewById(R.id.swipeRefresh);
 
@@ -130,6 +135,19 @@ public class FavouriteActivity extends AppCompatActivity {
 
         // 🔥 LOAD FIRESTORE DATA
         loadFavourites();
+
+        getOnBackPressedDispatcher().addCallback(this,
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+
+                        Intent intent = new Intent(FavouriteActivity.this, HomeActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                        overridePendingTransition(0, 0);
+                        finish();
+                    }
+                });
     }
 
 
@@ -163,15 +181,22 @@ public class FavouriteActivity extends AppCompatActivity {
                         }
                     }
 
-                    Toast.makeText(
-                            FavouriteActivity.this,
-                            "Favourites  " + list.size(),
-                            Toast.LENGTH_LONG
-                    ).show();
 
                     adapter.updateFullList(list);
                     // Replace shimmer with real images
                     recyclerView.setAdapter(adapter);
+
+                    if (list.isEmpty()) {
+
+                        recyclerView.setVisibility(View.GONE);
+                        emptyLayout.setVisibility(View.VISIBLE);
+
+                    } else {
+
+                        recyclerView.setVisibility(View.VISIBLE);
+                        emptyLayout.setVisibility(View.GONE);
+
+                    }
                     swipeRefresh.setRefreshing(false);
                 })
                 .addOnFailureListener(e -> {

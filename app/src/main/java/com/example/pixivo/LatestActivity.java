@@ -13,6 +13,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+import androidx.activity.OnBackPressedCallback;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,6 +43,8 @@ public class LatestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_latest);
         WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
 
+
+
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 
@@ -54,6 +57,7 @@ public class LatestActivity extends AppCompatActivity {
                     }
                 }
         );
+
 
 
 
@@ -134,7 +138,21 @@ public class LatestActivity extends AppCompatActivity {
 
         // 🔥 LOAD FIRESTORE DATA
         loadLatestWallpapers();
+        getOnBackPressedDispatcher().addCallback(this,
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+
+                        Intent intent = new Intent(LatestActivity.this, HomeActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                        overridePendingTransition(0, 0);
+                        finish();
+                    }
+                });
+
     }
+
 
     // 🔥 FIXED LATEST LOGIC (SAFE VERSION)
     private void loadLatestWallpapers() {
@@ -144,8 +162,14 @@ public class LatestActivity extends AppCompatActivity {
 
         FirebaseFirestore.getInstance()
                 .collection("wallpapers")
-                .whereGreaterThanOrEqualTo("timestamp", sevenDaysAgo)
-                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .whereGreaterThanOrEqualTo(
+                        "timestamp",
+                        sevenDaysAgo
+                )
+                .orderBy(
+                        "timestamp",
+                        Query.Direction.DESCENDING
+                )
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
 
@@ -153,23 +177,7 @@ public class LatestActivity extends AppCompatActivity {
 
                     int count = queryDocumentSnapshots.size();
 
-                    if (count == 0) {
 
-                        Toast.makeText(
-                                LatestActivity.this,
-                                " Latests 0",
-                                Toast.LENGTH_LONG
-                        ).show();
-
-                    } else {
-
-                        Toast.makeText(
-                                LatestActivity.this,
-                                " Latests " + count,
-                                Toast.LENGTH_LONG
-                        ).show();
-
-                    }
 
                     for (DocumentSnapshot doc : queryDocumentSnapshots) {
 
