@@ -26,7 +26,7 @@
 
         <!-- Splash -->
         <activity
-            android:name=".SplashActivity"
+            android:name=".HomeActivity"
             android:exported="true"
             android:screenOrientation="portrait">
 
@@ -52,7 +52,7 @@
 
         <!-- Home -->
         <activity
-            android:name=".HomeActivity"
+            android:name=".SplashActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 

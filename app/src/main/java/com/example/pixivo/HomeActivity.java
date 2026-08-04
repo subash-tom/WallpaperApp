@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.Network;
+
 import android.net.NetworkCapabilities;
 import android.os.Bundle;
 import android.view.View;
@@ -40,6 +41,8 @@ public class HomeActivity extends AppCompatActivity {
     private String selectedCategory = "all";
     SwipeRefreshLayout swipeRefresh;
     ArrayList<WallpaperModel> list;
+
+    private static boolean splashShown = false;
     WallpaperAdapter adapter;
 
     // 🔍 Search UI
@@ -55,6 +58,28 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        View startupOverlay = findViewById(R.id.startupOverlay);
+
+        if (!splashShown) {
+
+            splashShown = true;
+
+            startupOverlay.postDelayed(() -> {
+
+                startupOverlay.animate()
+                        .alpha(0f)
+                        .setDuration(500)
+                        .withEndAction(() ->
+                                startupOverlay.setVisibility(View.GONE))
+                        .start();
+
+            }, 1500);
+
+        } else {
+
+            startupOverlay.setVisibility(View.GONE);
+
+        }
 
         WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
 
@@ -145,7 +170,6 @@ public class HomeActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(shimmerAdapter);
 
-        loadWallpapers();
         // 🔥 LOAD FIRESTORE DATA
         loadWallpapers();
 
@@ -308,6 +332,9 @@ public class HomeActivity extends AppCompatActivity {
         );
 
         dialog.setContentView(R.layout.exit_dialog);
+
+
+
         dialog.setCancelable(false);
 
         Button btnExit = dialog.findViewById(R.id.btnExit);

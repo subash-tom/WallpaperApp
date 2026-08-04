@@ -65,63 +65,18 @@ public class WallpaperAdapter extends RecyclerView.Adapter<WallpaperAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         WallpaperModel model = list.get(position);
 
-        // Already loaded -> GIF show panna vendam
-        if (model.isLoaded()) {
+        Log.d("BIND", "URL = " + model.getImageUrl());
 
-            holder.loadingGif.setVisibility(View.GONE);
+        holder.loadingGif.setVisibility(View.GONE);
 
-            Glide.with(context)
-                    .load(model.getImageUrl())
-                    .into(holder.imageView);
-
-        } else {
-
-            holder.loadingGif.setVisibility(View.VISIBLE);
-
-            Glide.with(context)
-                    .asGif()
-                    .load(R.drawable.loading)
-                    .into(holder.loadingGif);
-
-            holder.imageView.setImageDrawable(null);
-
-            Glide.with(context)
-                    .load(model.getImageUrl())
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .skipMemoryCache(false)
-                    .thumbnail(0.25f)
-                    .listener(new RequestListener<Drawable>() {
-
-                        @Override
-                        public boolean onLoadFailed(
-                                GlideException e,
-                                Object model,
-                                Target<Drawable> target,
-                                boolean isFirstResource) {
-
-                            holder.loadingGif.setVisibility(View.GONE);
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(
-                                Drawable resource,
-                                Object model,
-                                Target<Drawable> target,
-                                DataSource dataSource,
-                                boolean isFirstResource) {
-
-                            holder.loadingGif.setVisibility(View.GONE);
-                            return false;
-                        }
-                    })
-                    .error(R.drawable.ic_launcher_background)
-                    .into(holder.imageView);
-        }
+        Glide.with(context)
+                .load(model.getImageUrl())
+                .error(R.drawable.ic_launcher_background)
+                .into(holder.imageView);
 
         holder.imageView.setOnClickListener(v -> {
 

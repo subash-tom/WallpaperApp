@@ -99,7 +99,6 @@ public class LatestActivity extends AppCompatActivity {
                 new GridLayoutManager(this, spanCount)
         );
 
-        recyclerView.setAdapter(adapter);
 
         int space = (int) (4 * getResources()
                 .getDisplayMetrics()
@@ -136,6 +135,10 @@ public class LatestActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(shimmerAdapter);
 
+        recyclerView.post(() -> {
+            recyclerView.setAdapter(adapter);
+        });
+
         // 🔥 LOAD FIRESTORE DATA
         loadLatestWallpapers();
         getOnBackPressedDispatcher().addCallback(this,
@@ -157,44 +160,65 @@ public class LatestActivity extends AppCompatActivity {
     // 🔥 FIXED LATEST LOGIC (SAFE VERSION)
     private void loadLatestWallpapers() {
 
-        long sevenDaysAgo =
-                System.currentTimeMillis() - (7L * 24 * 60 * 60 * 1000);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        FirebaseFirestore.getInstance()
-                .collection("wallpapers")
-                .whereGreaterThanOrEqualTo(
-                        "timestamp",
-                        sevenDaysAgo
-                )
-                .orderBy(
-                        "timestamp",
-                        Query.Direction.DESCENDING
-                )
+        // Step 1 - Get latest Batch ID
+        db.collection("wallpapers")
+                .orderBy("batchId", Query.Direction.DESCENDING)
+                .limit(1)
                 .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
+                .addOnSuccessListener(batchSnapshot -> {
 
-                    list.clear();
-
-                    int count = queryDocumentSnapshots.size();
-
-
-
-                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
-
-                        String imageUrl = doc.getString("imageUrl");
-                        String category = doc.getString("category");
-
-                        if (imageUrl != null) {
-                            list.add(new WallpaperModel(imageUrl, category));
-                        }
+                    if (batchSnapshot.isEmpty()) {
+                        swipeRefresh.setRefreshing(false);
+                        return;
                     }
 
-                    adapter.updateFullList(list);
-                    // Replace shimmer with real images
-                    recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
+                    Long latestBatch = batchSnapshot
+                            .getDocuments()
+                            .get(0)
+                            .getLong("batchId");
 
-                    swipeRefresh.setRefreshing(false);
+                    if (latestBatch == null) {
+                        swipeRefresh.setRefreshing(false);
+                        return;
+                    }
+
+                    // Step 2 - Load ONLY that batch
+                    db.collection("wallpapers")
+                            .whereEqualTo("batchId", latestBatch.longValue())
+                            .orderBy("timestamp", Query.Direction.DESCENDING)
+                            .get()
+                            .addOnSuccessListener(queryDocumentSnapshots -> {
+
+                                list.clear();
+
+                                for (DocumentSnapshot doc : queryDocumentSnapshots) {
+
+                                    String imageUrl = doc.getString("imageUrl");
+                                    String category = doc.getString("category");
+
+                                    if (imageUrl != null) {
+                                        list.add(new WallpaperModel(imageUrl, category));
+                                    }
+                                }
+
+                                adapter.updateFullList(list);
+
+                                adapter.notifyDataSetChanged();
+                                swipeRefresh.setRefreshing(false);
+                            })
+                            .addOnFailureListener(e -> {
+
+                                swipeRefresh.setRefreshing(false);
+
+                                Toast.makeText(
+                                        LatestActivity.this,
+                                        e.getMessage(),
+                                        Toast.LENGTH_SHORT
+                                ).show();
+
+                            });
 
                 })
                 .addOnFailureListener(e -> {
@@ -203,12 +227,14 @@ public class LatestActivity extends AppCompatActivity {
 
                     Toast.makeText(
                             LatestActivity.this,
-                            "Error : " + e.getMessage(),
-                            Toast.LENGTH_LONG
+                            e.getMessage(),
+                            Toast.LENGTH_SHORT
                     ).show();
 
                 });
+        Log.d("LATEST_SIZE", "Size = " + list.size());
     }
+
     private boolean isConnected() {
 
         ConnectivityManager cm =
