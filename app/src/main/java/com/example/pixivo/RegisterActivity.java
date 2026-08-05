@@ -146,7 +146,14 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             if (userPassword.length() < 6) {
-                password.setError("Password must be 6+ characters");
+
+                Toast.makeText(
+                        RegisterActivity.this,
+                        "Password must be at least 6 characters",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+                password.requestFocus();
                 return;
             }
 

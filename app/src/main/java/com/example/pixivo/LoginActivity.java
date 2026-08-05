@@ -118,7 +118,14 @@ public class LoginActivity extends AppCompatActivity {
 
             // ✅ Password length
             if (userPassword.length() < 6) {
-                password.setError("Password must be 6+ characters");
+
+                Toast.makeText(
+                        LoginActivity.this,
+                        "Password must be at least 6 characters",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+                password.requestFocus();
                 return;
             }
 
@@ -128,22 +135,36 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (task.isSuccessful()) {
 
-                            Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(
+                                    LoginActivity.this,
+                                    "Login Successful",
+                                    Toast.LENGTH_SHORT
+                            ).show();
 
-                            // 🚀 Go to Home Page
-                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                            // Save login state
+                            SharedPreferences.Editor editor =
+                                    getSharedPreferences("MyApp", MODE_PRIVATE).edit();
+
+                            editor.putBoolean("isLoggedIn", true);
+                            editor.apply();
+
+                            Intent intent = new Intent(
+                                    LoginActivity.this,
+                                    HomeActivity.class
+                            );
+
                             startActivity(intent);
                             finish();
 
                         } else {
 
-                            // 🔥 Show real error
-                            Toast.makeText(this,
-                                    "Error: " + task.getException().getMessage(),
-                                    Toast.LENGTH_LONG).show();
+                            Toast.makeText(
+                                    LoginActivity.this,
+                                    "Invalid email or password",
+                                    Toast.LENGTH_SHORT
+                            ).show();
                         }
                     });
-
         });
 
     }

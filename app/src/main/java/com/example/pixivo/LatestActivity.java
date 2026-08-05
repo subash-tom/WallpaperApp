@@ -45,7 +45,6 @@ public class LatestActivity extends AppCompatActivity {
         WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
 
 
-
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 
@@ -60,9 +59,6 @@ public class LatestActivity extends AppCompatActivity {
         );
 
 
-
-
-
         recyclerView = findViewById(R.id.recyclerView);
         swipeRefresh = findViewById(R.id.swipeRefresh);
 
@@ -73,7 +69,11 @@ public class LatestActivity extends AppCompatActivity {
         );
 
         swipeRefresh.setOnRefreshListener(() -> {
+
+            swipeRefresh.setRefreshing(true);
+
             loadLatestWallpapers();
+
         });
 
         homeBtn = findViewById(R.id.homeBtn);
@@ -142,28 +142,14 @@ public class LatestActivity extends AppCompatActivity {
 
         // 🔥 LOAD FIRESTORE DATA
         loadLatestWallpapers();
-        getOnBackPressedDispatcher().addCallback(this,
-                new OnBackPressedCallback(true) {
-                    @Override
-                    public void handleOnBackPressed() {
-
-                        Intent intent = new Intent(LatestActivity.this, HomeActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        startActivity(intent);
-                        overridePendingTransition(0, 0);
-                        finish();
-                    }
-                });
-
     }
-
 
     // 🔥 FIXED LATEST LOGIC (SAFE VERSION)
     private void loadLatestWallpapers() {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        swipeRefresh.setRefreshing(true);
+
 
         list.clear();
 
