@@ -130,9 +130,6 @@
                 android:text="Games"
                 android:backgroundTint="#E3A2EE"/>
 
-            <include
-                layout="@layout/startup_overlay"/>
-
 
         </LinearLayout>
 
@@ -209,10 +206,6 @@
 
     </LinearLayout>
 
-    <include
-        android:id="@+id/startupOverlay"
-        layout="@layout/startup_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

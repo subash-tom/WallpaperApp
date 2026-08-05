@@ -58,28 +58,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        View startupOverlay = findViewById(R.id.startupOverlay);
 
-        if (!splashShown) {
-
-            splashShown = true;
-
-            startupOverlay.postDelayed(() -> {
-
-                startupOverlay.animate()
-                        .alpha(0f)
-                        .setDuration(500)
-                        .withEndAction(() ->
-                                startupOverlay.setVisibility(View.GONE))
-                        .start();
-
-            }, 1500);
-
-        } else {
-
-            startupOverlay.setVisibility(View.GONE);
-
-        }
 
         WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
 

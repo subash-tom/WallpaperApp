@@ -27,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class LatestActivity extends AppCompatActivity {
 
@@ -162,68 +163,78 @@ public class LatestActivity extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // Step 1 - Get latest Batch ID
+        swipeRefresh.setRefreshing(true);
+
+        list.clear();
+
         db.collection("wallpapers")
-                .orderBy("batchId", Query.Direction.DESCENDING)
-                .limit(1)
                 .get()
-                .addOnSuccessListener(batchSnapshot -> {
+                .addOnSuccessListener(allDocuments -> {
 
-                    if (batchSnapshot.isEmpty()) {
-                        swipeRefresh.setRefreshing(false);
-                        return;
+                    HashMap<String, Long> latestBatchMap = new HashMap<>();
+
+                    // STEP 1 - Find latest batch of every category
+                    for (DocumentSnapshot doc : allDocuments) {
+
+                        String category = doc.getString("category");
+                        Long batchId = doc.getLong("batchId");
+
+                        Log.d("FIRESTORE_DATA",
+                                "Category = " + category +
+                                        " Batch = " + batchId);
+
+                        if (category == null || batchId == null)
+                            continue;
+
+                        if (!latestBatchMap.containsKey(category)
+                                || batchId > latestBatchMap.get(category)) {
+
+                            latestBatchMap.put(category, batchId);
+                        }
                     }
 
-                    Long latestBatch = batchSnapshot
-                            .getDocuments()
-                            .get(0)
-                            .getLong("batchId");
+                    // STEP 2 - Add only latest batch images
+                    for (DocumentSnapshot doc : allDocuments) {
 
-                    if (latestBatch == null) {
-                        swipeRefresh.setRefreshing(false);
-                        return;
+                        String category = doc.getString("category");
+                        Long batchId = doc.getLong("batchId");
+
+                        if (category == null || batchId == null)
+                            continue;
+
+                        if (batchId.equals(latestBatchMap.get(category))) {
+
+                            String imageUrl = doc.getString("imageUrl");
+
+                            Log.d("LATEST_SHOW",
+                                    "Category = " + category +
+                                            " Batch = " + batchId +
+                                            " URL = " + imageUrl);
+
+                            if (imageUrl != null) {
+
+                                list.add(new WallpaperModel(
+                                        imageUrl,
+                                        category
+                                ));
+                            }
+                        }
                     }
 
-                    // Step 2 - Load ONLY that batch
-                    db.collection("wallpapers")
-                            .whereEqualTo("batchId", latestBatch.longValue())
-                            .orderBy("timestamp", Query.Direction.DESCENDING)
-                            .get()
-                            .addOnSuccessListener(queryDocumentSnapshots -> {
+                    Log.d("TOTAL_LIST_SIZE",
+                            "Images = " + list.size());
 
-                                list.clear();
+                    adapter.updateFullList(list);
+                    adapter.notifyDataSetChanged();
 
-                                for (DocumentSnapshot doc : queryDocumentSnapshots) {
-
-                                    String imageUrl = doc.getString("imageUrl");
-                                    String category = doc.getString("category");
-
-                                    if (imageUrl != null) {
-                                        list.add(new WallpaperModel(imageUrl, category));
-                                    }
-                                }
-
-                                adapter.updateFullList(list);
-
-                                adapter.notifyDataSetChanged();
-                                swipeRefresh.setRefreshing(false);
-                            })
-                            .addOnFailureListener(e -> {
-
-                                swipeRefresh.setRefreshing(false);
-
-                                Toast.makeText(
-                                        LatestActivity.this,
-                                        e.getMessage(),
-                                        Toast.LENGTH_SHORT
-                                ).show();
-
-                            });
+                    swipeRefresh.setRefreshing(false);
 
                 })
                 .addOnFailureListener(e -> {
 
                     swipeRefresh.setRefreshing(false);
+
+                    Log.e("LATEST_ERROR", e.getMessage());
 
                     Toast.makeText(
                             LatestActivity.this,
@@ -232,9 +243,7 @@ public class LatestActivity extends AppCompatActivity {
                     ).show();
 
                 });
-        Log.d("LATEST_SIZE", "Size = " + list.size());
     }
-
     private boolean isConnected() {
 
         ConnectivityManager cm =
